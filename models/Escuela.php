@@ -13,7 +13,7 @@ class Escuela extends Conexion{
     try{
       $consulta = $this->accesoBD->prepare("CALL spu_escuelas_listar()");
       $consulta->execute();
-      return $consulta->fechAll(PDO::FECH_ASSOC);      
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);      
     }
     catch(Exception $e){
       die($e->getMessage());
