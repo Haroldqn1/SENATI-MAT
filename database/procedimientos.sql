@@ -76,7 +76,7 @@ END $$
 CALL spu_carreras_listar(3);
 
 
-
+CALL spu_sedes_listar();
 
 
 

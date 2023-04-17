@@ -1,5 +1,5 @@
 CREATE DATABASE senatimat;
-USE senatimat;
+USE `escuelas`;
 
 CREATE TABLE escuelas
 (
@@ -86,6 +86,8 @@ INSERT INTO estudiantes
 	('Quintana','Tania','33334444','2001-05-18',9,4);
 
 SELECT * FROM estudiantes;
+
+SELECT * FROM carreras;
 
 
 
