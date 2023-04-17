@@ -27,7 +27,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action ="" autocomplete="off" id="formulario-estudiantes">
+          <form action ="" autocomplete="off" id="formulario-estudiantes" enctype="multipart/form-data">
             <!------------------------------------------------------------->
             <div class="row">
               <div class="mb-3 col-md-6">
@@ -43,7 +43,10 @@
             <div class="row">
               <div class="mb-3 col-md-6">
                 <label for="tipodocumento" class="form-label">Tipo de Documento</label>
-                <select id="tipodocumento" class="form-select form-select-sm">
+                <select name="tipodocumento" id="tipodocumento" class="form-select form-select-sm">
+                  <option value="">Seleccione</option>
+                  <option value="D">DNI</option>
+                  <option value="C">Carnet de Extranjeria</option>
                 </select>
               </div>
               <div class="mb-3 col-md-6">
@@ -58,7 +61,7 @@
                 <input type="date" class="form-control form-control-sm" id="fechanacimiento">
               </div>
               <div class="mb-3 col-md-6">
-                <label for="sede" class="form-label">Elija la Sede</label>
+                <label for="sede" class="form-label">Elija la Sede:</label>
                 <select type="text" id="sede" class="form-select form-select-sm">
                 </select>
               </div>
@@ -81,7 +84,7 @@
             <div class="row">
               <div class="mb-3">
                 <label for="fotografia" class="form-label">Fotografia:</label>
-                <input type="file" class="form-control form-control-sm" id="fotografia"/>
+                <input type="file" class="form-control form-control-sm" id="fotografia" accept=".jpg" />
               </div>
             </div>
           </form>
@@ -138,6 +141,36 @@
       }
 
       function registrarEstudiante(){
+
+        //Enviaremos los datos dentro de un OBJETO
+        var formData = new FormData();
+
+        formData.append("operacion"       , "registrar");
+        formData.append("apellidos"       , $("#apellidos").val());
+        formData.append("nombres"         , $("#nombres").val());
+        formData.append("tipodocumento"   , $("#tipodocumento").val());
+        formData.append("nrodocumento"    , $("#nrodocumento").val());
+        formData.append("fechanacimiento" , $("#fechanacimiento").val());
+        formData.append("idcarrera"       , $("#carrera").val());
+        formData.append("idsede"          , $("#sede").val());
+        formData.append("fotografia"      , $("#fotografia")[0].files[0]);
+
+        $.ajax({
+          url: '../controllers/estudiante.controller.php',
+          type: 'POST',
+          data: formData,
+          contentType:false,
+          processData:false,
+          cache: false,
+          success: function(){
+            $("#formulario-estudiantes")[0].reset();
+            $("#modal-estudiante").modal("hide");
+            alert("Guardado correctamente")
+          }
+        });
+      }
+
+      function preguntarRegistro(){
         Swal.fire({
           icon: 'question',
           title: 'Matriculas',
@@ -150,12 +183,12 @@
         }).then((result) => {
           //Identificando la accion del usuario
           if(result.isConfirmed){
-            console.log("Guardando datos...");
+            registrarEstudiante();
           }
         });
       }
 
-      $("#guardar-estudiante").click(registrarEstudiante);
+      $("#guardar-estudiante").click(preguntarRegistro);
 
       //Al cambiar una escuela , se actualizara las carreras
       $("#escuela").change(function(){

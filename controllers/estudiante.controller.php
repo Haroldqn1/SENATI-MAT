@@ -21,6 +21,20 @@ if (isset($_POST['operacion'])){
       "fotografia"      => ''
     ];
 
+    //Vamos a verificar si la visa nos envio una FOTOGRAFIA
+    if (isset($_FILES['fotografia'])){
+
+      $rutaDestino = '../views/img/fotografias/';
+      $fechaactual = date('c'); //C= complete , AÑO/MES/DIA/HORA/MINUTO/SEGUNDO 
+      $nombreArchivo = sha1($fechaactual). ".jpg";
+      $rutaDestino .=$nombreArchivo;
+
+      //Guardamos la fotografia en el servidor
+      if(move_uploaded_file($_FILES['fotografia']['tmp_name'], $rutaDestino)){
+        $datosGuardar['fotografia'] = $nombreArchivo;
+      }
+    }
+
     //PASO 2: Enviar el array
     $estudiante->registrarEstudiante($datosGuardar);
 
