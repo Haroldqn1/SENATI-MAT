@@ -145,6 +145,21 @@ CALL spu_colaboradores_listar()
 
 
 
+-- ELIMINAR 
+
+DELIMITER $$
+CREATE PROCEDURE spu_colaborador_eliminar(
+	_idcolaborador INT 
+)
+BEGIN
+	DELETE FROM colaboradores WHERE idcolaborador = _idcolaborador;
+END$$
+
+CALL spu_colaborador_eliminar(2)
+CALL spu_colaboradores_listar()
+
+
+
 
 
 

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 
   <!--Lighbox CSS-->
-  <link rel="stylesheet" href="../dist/lightbox2/src/css/lightbox.css">
+  <!--<link rel="stylesheet" href="../dist/lightbox2/src/css/lightbox.css">-->
 
 
 
@@ -140,7 +140,7 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   <!--LightBox JS-->
-  <script src="../dist/lightbox2/src/js/lightbox.js"></script>
+  <!--<script src="../dist/lightbox2/src/js/lightbox.js"></script>-->
 
   <script>
     $(document).ready(function(){
@@ -208,6 +208,7 @@
             $("#formulario-colaborador")[0].reset();
             $("#modal-colaborador").modal("hide");
             alert("Guardado correctamente");
+            mostrarColaboradores();
           }
         });
       }
@@ -230,6 +231,30 @@
         });
       }
 
+      function eliminarColaborador(){
+        console.log("Eliminando..."); 
+      }
+      //---------------------------------
+      $("#tabla-colaboradores tbody").on("click",".eliminar",function(){
+        const idcolaboradorEliminar = $(this).data("idcolaborador");
+        if(confirm("¿Estas Seguro de proceder?")){
+          $.ajax({
+            url:'../controllers/colaboradores.controller.php',
+            type:'POST',
+            data:{
+              operacion : 'eliminar',
+              idcolaborador : idcolaboradorEliminar
+            },
+            success: function(result){
+              if(result == ""){
+                mostrarColaboradores();
+              }
+            }
+          })
+        }
+      });
+
+      //Evento-------------------------
       $("#guardar-colaborador").click(preguntarRegistro);
 
 
