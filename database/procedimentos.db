@@ -142,13 +142,3 @@ CALL spu_colaboradores_registrar('Manzanita Morada','Azul',1,3,'P','992932132','
 
 
 CALL spu_colaboradores_listar()
-
-
-
-
-
-
-
-
-
-
